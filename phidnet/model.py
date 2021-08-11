@@ -88,7 +88,6 @@ def show_fit():   # Show change of epoch, and loss
 
 
 def accuracy(Y, T):   # Get accuracy
-
     sum = 0
     for i in range(len(T)):
         if np.argmax(Y[i]) == np.argmax(T[i]):

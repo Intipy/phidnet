@@ -24,7 +24,7 @@ def compile(input=None, target=None):   # Compile model
 
 
 def weight(axis0, axis1, layer=1):   # Make weights in neural network dictionary
-    mat = np.random.randn(axis0, axis1)
+    mat = np.random.randn(axis0, axis1).astype(np.float32)
     phidnet.network_data.weight[layer] = mat
     phidnet.network_data.deltaWeight[layer] = None
     return 0
@@ -32,7 +32,7 @@ def weight(axis0, axis1, layer=1):   # Make weights in neural network dictionary
 
 
 def bias(axis1, layer=1):   # Make biases in neural network dictionary
-    mat = np.random.randn(1, axis1)
+    mat = np.random.randn(1, axis1).astype(np.float32)
     phidnet.network_data.bias[layer] = mat
     phidnet.network_data.deltaBias[layer] = None
     return 0
