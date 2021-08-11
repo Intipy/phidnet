@@ -40,7 +40,6 @@ def create_linear_model():
 
 
 
-
 model = create_linear_model()
 X = np.reshape(X, (X.shape[0], X.shape[1] * X.shape[2] * X.shape[3]))
 X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1] * X_test.shape[2] * X_test.shape[3]))
