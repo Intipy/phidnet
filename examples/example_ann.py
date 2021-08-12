@@ -20,6 +20,7 @@ print("test output shape:", T_test.shape)
 ############################################### Optimizer & Activation function setting
 Relu = phidnet.activation.Relu()
 Sigmoid = phidnet.activation.Sigmoid()
+Softmax = phidnet.activation.Softmax()
 SGD = phidnet.optimizer.SGD(lr=0.01)
 Momentum = phidnet.optimizer.Momentum(lr=0.01, momentum=0.9)
 AdaGrad = phidnet.optimizer.AdaGrad(lr=0.01)
@@ -29,7 +30,7 @@ AdaGrad = phidnet.optimizer.AdaGrad(lr=0.01)
 
 ############################################### Build neural network
 phidnet.set.layer(784)
-phidnet.set.layer(200, activation=Sigmoid)
+phidnet.set.layer(200, activation=Relu)
 phidnet.set.layer(10, activation=Sigmoid)
 phidnet.set.compile(input=X, target=T)
 ###############################################
