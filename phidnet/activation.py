@@ -7,8 +7,8 @@ class Sigmoid:  # Sigmoid class
         self.out = None
 
     def forward(self, x):    # Sigmoid function
-        x[x > 1000] = 1000
-        x[x < -1000] = -1000
+        x[x > 100] = 100
+        x[x < -100] = -100
         self.out = 1 / (1 + np.exp(-x))
         return self.out
 
@@ -40,8 +40,8 @@ class Softmax:   # Softmax class
         self.out = None
 
     def forward(self, x):   # Softmax function
-        x[x > 1000] = 1000
-        x[x < -1000] = -1000
+        x[x > 100] = 100
+        x[x < -100] = -100
         self.out = np.exp(x) / np.sum(np.exp(x))
         return self.out
 
