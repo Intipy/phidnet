@@ -3,15 +3,7 @@ from phidnet.CNN import preprocessing
 
 
 class Conv:
-    def __init__(
-        self,
-        n_input_filters,
-        n_filters,
-        kernel_shape=(2, 2),
-        stride=(1, 1),
-        padding="valid",
-        xavier=True,
-    ):
+    def __init__(self, n_input_filters, n_filters, kernel_shape=(2, 2), stride=(1, 1), padding=False, xavier=True):
         self.n_filters = n_filters
         self.kernel_shape = kernel_shape
         self.stride = stride
@@ -22,7 +14,7 @@ class Conv:
 
     def operation(self, x):  # x = (n,h,w,c)  #W = (n_f,h,w,c)
 
-        if self.padding == "same":
+        if self.padding == False:
             x = preprocessing.padding(x, self.kernel_shape, self.stride)
 
         size = preprocessing.calc_img_size_from_params(
@@ -63,7 +55,7 @@ class Conv:
             self.W *= np.sqrt(2 / self.n_filters)
 
     def gradient(self, x, grad):
-        if self.padding == "same":
+        if self.padding == False:
             x = preprocessing.padding(
                 x, (self.W.shape[1], self.W.shape[2]), self.stride
             )

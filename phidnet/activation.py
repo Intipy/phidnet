@@ -39,14 +39,30 @@ class Softmax:   # Softmax class
     def __init__(self):
         self.out = None
 
-    def forward(self, x):   # Softmax function
+    def forward(self, x):  # Softmax function
         x[x > 100] = 100
         x[x < -100] = -100
-        self.out = np.exp(x) / np.sum(np.exp(x))
+        if x.ndim == 2:
+            self.out = [np.exp(x[i]) / np.sum(np.exp(x[i])) for i in range(x.shape[0])]
+            self.out = np.array(self.out)
+        elif x.ndim == 1:
+            self.out = np.exp(x) / np.sum(np.exp(x))
+        else:
+            raise Exception("The input of the softmax function cannot be an array of more than three dimensions")
         return self.out
 
     def backward(self, x):   # derivative of softmax function
-        pass
+        '''
+        out = self.forward(x)
+        self.out = np.zeros_like(x)
+        for i in range(x.shape[0]):
+            for j in range(x.shape[1]):
+                if i == j:
+                    self.out[i, j] = out[i] * (1 - out[j])
+                else:
+                    self.out[i, j] = -out[i] * out[j]
+        '''
+        return 1
 
 
 

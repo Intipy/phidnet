@@ -16,6 +16,7 @@ from phidnet import gradient
 
 def fit(epoch=1, optimizer=None, batch=100, print_rate=1, save=False):   # Fit model that we`ve built
     len_t = len(network_data.target)
+    iteration = 0
 
     for e in range(0, epoch + 1):   # Repeat for epochs
 
@@ -28,13 +29,12 @@ def fit(epoch=1, optimizer=None, batch=100, print_rate=1, save=False):   # Fit m
             gradient.gradient()
             optimizer.update()
 
-
-        error = mean_squared_error(Y, T)
-        acc = accuracy(Y, T)
-
-        network_data.Loss_list.append(error)   # Append values to list that we`ve made
-        network_data.Epoch_list.append(e)
-        network_data.Acc_list.append(acc)
+            iteration += 1
+            error = mean_squared_error(Y, T)
+            acc = accuracy(Y, T)
+            network_data.Epoch_list.append(iteration)   # Append values to list that we`ve made
+            network_data.Loss_list.append(error)
+            network_data.Acc_list.append(acc)
 
 
         if (e % print_rate == 0):   # Print loss
@@ -79,7 +79,7 @@ def predict(inp, exponential=True, precision=6):   # Predict
 def show_fit():   # Show change of epoch, and loss
     plt.plot(network_data.Epoch_list, network_data.Loss_list, color='red')
     plt.plot(network_data.Epoch_list, network_data.Acc_list, color='green')
-    plt.xlabel('Epoch')
+    plt.xlabel('Epoch (iteration * epoch)')
     plt.ylabel('Loss & Accuracy')
     plt.legend(['Loss', 'Accuracy'])
     plt.show()
