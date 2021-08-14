@@ -78,10 +78,7 @@ class Matrix:
                     col_stop = int(col_index) + 1
                 except ValueError:
                     print("Bad Data")
-            print("row start", row_start)
-            print("row stop", row_stop)
-            print(col_start)
-            print(col_stop)
+
             return array([self[i][col_start:col_stop] for i in range(row_start,row_stop)])
 
         else:

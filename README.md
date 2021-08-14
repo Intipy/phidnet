@@ -97,25 +97,37 @@
 
   * Dot product
     + phidnet.matrix.dot(mat1, mat2)
+  
+  * Index of matrix
+    + If you used a regular Python index, it is not suitable for two-dimensional arrays. 
+ For example, [1][2] does not point to row 1 and column 2. A two-dimensional array is a shape with an array in array, and Python views the array as one element.
+    + The solution is to use the indexing, slicing functions built into the phidnet.
+    + Python index: mat[1][2] (does not point to row 1, column 2)
+    + Phidnet index: mat("1,2") (point to row 1, column 2)
+    + Python slicing: mat[1:3][:8] (does not point row 1-2, column 0-7)
+    + Phidnet slicing: mat["1:3,:8"] (point row 1-2, column 0-7)
 
   * Slicing of matrix(by index)
     + sliced_matrix = phidnet.matrix.slice_full(mat, row_start, row_end, column_start, column_end)
     + sliced_matrix = phidnet.matrix.slice_full(mat, 1, 2, 1, 1)
-    + 1~2 row, 1~1 column (0 based index)
+    + 1-2 row, 1-1 column (0 based index)
 
   * Slicing of matrix(by python slicing)
     + sliced_matrix = mat[ " Python Slicing Grammar " ]
     + sliced_matrix = mat["1:3,1:2"]
-    + 1~2 row, 1~1 column (0 based index)
+    + 1-2 row, 1-1 column (0 based index)
     + sliced_matrix = mat[",1:2"]
-    + all row, 1~1 column (0 based index)
+    + all row, 1-1 column (0 based index)
 
   * Transpose matrix
     + transposed_matrix = phidnet.Matrix.trans(mat)
     + transposed_matrix = mat.trans()
 
   * Map
-    + 
+    + def function(x): return 2*x
+    + mapped_matrix = phidnet.Matrix.map(mat, function)
+  
+  * 
 
 ---------
 

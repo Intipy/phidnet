@@ -27,6 +27,9 @@ sliced_3 = a[",1:2"]   # all row, 1~1 column (0 based index)
 trans = phidnet.Matrix.trans(a)
 trans_2 = a.trans()
 
+def f(x): return 2*x
+mapped = phidnet.Matrix.map(a, f)
+
 print("========================")
 print(a)
 print(b)
@@ -38,4 +41,6 @@ print(sliced_2)
 print(sliced_3)
 print(trans)
 print(trans_2)
+print(mapped)
+print(a["0,1"])
 print("========================")
