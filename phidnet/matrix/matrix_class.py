@@ -7,27 +7,7 @@ import os
 import shutil
 import sys
 import textwrap
-
-
-def matrix(*pargs, **kwargs):   # convert to matrix class.
-    if isinstance(pargs[0], int):
-        return Matrix.identity(pargs[0])
-    elif isinstance(pargs[0], str):
-        return Matrix.from_string(*pargs, **kwargs)
-    elif isinstance(pargs[0], list):
-        return Matrix.from_list(*pargs, **kwargs)
-    else:
-        raise NotImplementedError
-
-
-
-def cross(u, v):   # Returns u x v - the vector product of 3D column vectors u and v.
-    w = Matrix(3, 1)
-    w[0][0] = u[1][0] * v[2][0] - u[2][0] * v[1][0]
-    w[1][0] = u[2][0] * v[0][0] - u[0][0] * v[2][0]
-    w[2][0] = u[0][0] * v[1][0] - u[1][0] * v[0][0]
-    return w
-
+from phidnet.matrix.matrix import cross, array
 
 
 class MatrixError(Exception):
@@ -36,7 +16,6 @@ class MatrixError(Exception):
 
 
 class Matrix:
-
     def __init__(self, rows, cols, fill=0):   # Initialize a `rows` x `cols` matrix filled with `fill`
         self.numrows = rows
         self.numcols = cols
@@ -46,10 +25,10 @@ class Matrix:
 
     def __str__(self):   # Returns a string representation of the matrix
         maxlen = max(len(str(e)) for _, _, e in self)
-        string = 'matrix( \n' + '\n'.join(
+        string = 'matrix[ \n' + '\n'.join(
             ' '.join(str(e).rjust(maxlen) for e in row) for row in self.grid
         )
-        string = string + "\n)\n"
+        string = string + "\n]"
         return textwrap.dedent(string)
 
 
@@ -61,8 +40,53 @@ class Matrix:
 
 
 
-    def __getitem__(self, key):   # Enables `self[row][col]` indexing and assignment.
-        return self.grid[key]
+    def __getitem__(self, index_string):
+        type_input = str(type(index_string))
+        if type_input == "<class 'str'>":
+            row_index, col_index = index_string.split(",")
+
+            if row_index == '' or row_index==":":
+                row_start = 0
+                row_stop = self.numrows
+            elif ':' in row_index:
+                row_start, _, row_stop = row_index.partition(":")
+                try:
+                    row_start = int(row_start)
+                    row_stop = int(row_stop)
+                except ValueError:
+                    print("Bad Data")
+            else:
+                try:
+                    row_start = int(row_index)
+                    row_stop = int(row_index) + 1
+                except ValueError:
+                    print("Bad Data")
+
+            if col_index == '' or col_index == ":":
+                col_start = 0
+                col_stop = self.numcols
+            elif ':' in col_index:
+                col_start, _, col_stop = col_index.partition(":")
+                try:
+                    col_start = int(col_start)
+                    col_stop = int(col_stop)
+                except ValueError:
+                    print("Bad Data")
+            else:
+                try:
+                    col_start = int(col_index)
+                    col_stop = int(col_index) + 1
+                except ValueError:
+                    print("Bad Data")
+            print("row start", row_start)
+            print("row stop", row_stop)
+            print(col_start)
+            print(col_stop)
+            return array([self[i][col_start:col_stop] for i in range(row_start,row_stop)])
+
+        else:
+            return self.grid[index_string]
+
 
 
 
@@ -320,22 +344,6 @@ class Matrix:
 
 
 
-    def slice(self, s1, e1, s2, e2):
-        sliced = []
-        mat = self.to_list()
-
-        for i in range(s1, e1 + 1):   # s1 ~ e1 slice
-            sliced.append(mat[i])
-
-        index = 0
-        for i in sliced:
-            sliced[index] = sliced[index][s2:e2 + 1]
-            index += 1
-
-        return matrix(sliced)
-
-
-
     def row(self, n):   # Returns an iterator over the specified row.
         for col in range(self.numcols):
             yield self[n][col]
@@ -545,20 +553,6 @@ class Matrix:
                     rank += 1
                     break
         return rank
-
-
-
-    def dot(self, other):   # Multiplication: `dot(self, other)`.
-        if isinstance(other, Matrix):
-            if self.numcols != other.numrows:
-                raise MatrixError('incompatible sizes for multiplication')
-            m = Matrix(self.numrows, other.numcols)
-            for row, col, element in m:
-                for re, ce in zip(self.row(row), other.col(col)):
-                    m[row][col] += re * ce
-            return m
-        else:
-            return self.map(lambda element: element * other)
 
 
 

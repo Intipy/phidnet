@@ -78,10 +78,6 @@
     + phidnet.one_hot_encode.encode_array([[1], [2], [3]], length=5)   # [[0, 1, 0, 0, 0], [0, 0, 1, 0, 0], [0, 0, 0, 1, 0]]
     + phidnet.one_hot_encode.get_number(one_hot_encoded)
     + phidnet.one_hot_encode.get_number([0, 0, 1, 0, 0])   # 2
-
-  * Matrix operations 
-    + m = phidnet.matrix.matrix(list)  # It converts the list into a matrix (※ phidnet matrix object. not numpy object)
-    + ect.
     
   * Pre-prepared datasets
     + X, T, X_test, T_test = phidnet.datasets.mnist.load()
@@ -91,7 +87,39 @@
 
 ---------
 
-## 5. Use phidnet convolution neural network
+## 5. Use phidnet matrix
+  * Converting to matrix
+    + mat = phidnet.array(list)
+
+  * Add, Multiplication, Subtraction
+    + Equal to other classes of operations
+    + mat1 + mat2, mat1 - mat2, mat1 * mat2
+
+  * Dot product
+    + phidnet.matrix.dot(mat1, mat2)
+
+  * Slicing of matrix(by index)
+    + sliced_matrix = phidnet.matrix.slice_full(mat, row_start, row_end, column_start, column_end)
+    + sliced_matrix = phidnet.matrix.slice_full(mat, 1, 2, 1, 1)
+    + 1~2 row, 1~1 column (0 based index)
+
+  * Slicing of matrix(by python slicing)
+    + sliced_matrix = mat[ " Python Slicing Grammar " ]
+    + sliced_matrix = mat["1:3,1:2"]
+    + 1~2 row, 1~1 column (0 based index)
+    + sliced_matrix = mat[",1:2"]
+    + all row, 1~1 column (0 based index)
+
+  * Transpose matrix
+    + transposed_matrix = phidnet.Matrix.trans(mat)
+    + transposed_matrix = mat.trans()
+
+  * Map
+    + 
+
+---------
+
+## 6. Use phidnet convolution neural network
   * Set layer
     + 
     + 
@@ -101,5 +129,5 @@
 
 ---------
 
-## 6. Example phidnet
+## 7. Example phidnet
   * Refer to examples for details.

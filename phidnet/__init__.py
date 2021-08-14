@@ -1,6 +1,5 @@
 __all__ = ['activation',
            'error',
-           'matrix',
            'model',
            'network_data',
            'one_hot_encode',
@@ -15,3 +14,6 @@ __all__ = ['activation',
            'datasets']
 
 from phidnet import *
+from phidnet.matrix import matrix
+from phidnet.matrix.matrix import array
+from phidnet.matrix.matrix_class import Matrix

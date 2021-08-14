@@ -11,20 +11,31 @@ b = [[2, 3, 4, 5],
      [2, 3, 4, 5],
      [2, 3, 4, 5]]
 
-a = phidnet.matrix.matrix(a)
-b = phidnet.matrix.matrix(b)
+a = phidnet.array(a)
+b = phidnet.array(b)
 
-print(a)
-print(b)
+
 
 add = a + a
 mul = a * a
-dot = phidnet.matrix.Matrix.dot(a, b)
-slice = phidnet.matrix.Matrix.slice(a, 1, 3, 1, 2)   # 1~3 row, 1~2 column (
+dot = phidnet.matrix.dot(a, b)
 
-print("--------")
+sliced = phidnet.matrix.slice_full(a, 1, 2, 1, 1)   # 1~2 row, 1~1 column (0 based index)
+sliced_2 = a["1:3,1:2"]   # 1~2 row, 1~1 column (0 based index)
+sliced_3 = a[",1:2"]   # all row, 1~1 column (0 based index)
+
+trans = phidnet.Matrix.trans(a)
+trans_2 = a.trans()
+
+print("========================")
+print(a)
+print(b)
 print(add)
 print(mul)
 print(dot)
-print(slice)
-print("--------")
+print(sliced)
+print(sliced_2)
+print(sliced_3)
+print(trans)
+print(trans_2)
+print("========================")
