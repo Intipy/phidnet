@@ -3,7 +3,7 @@
 ---------
 
 ## 1. Introduction to phidnet
-  * Phidnet is a library developed for neural network construction and deep learning.
+  * Phidnet is a library developed for neural network construction for deep learning, machine learning, and statistics.
 
 ---------
 
@@ -25,8 +25,9 @@
 
   * Numpy
     + All data, such as matrix and vector, must be converted to numpy array object.
+    + Will be replaced by the built-in matrix library of the phidnet.
 
-  * Configuration of the Piednet
+  * Configuration of the Phidnet
     + phidnet.activation
     + phidnet.optimizer
     + phidnet.load
@@ -57,7 +58,7 @@
 
   * Fit model
     + phidnet.model.fit(epoch=1000, optimizer=SGD, batch=500, print_rate=100, save=True) 
-    + In the example, train the model for epoch. SGD is the instance of phid.optimizer.SGD() class. Batch size is 500. Every 100 epoch, print the loss and accuracy of model(print rate). If save= is true, save weight and bias in pickle. Default: save=False
+    + In the example, train the model for epoch. SGD is the instance of phidnet.optimizer.SGD() class. Batch size is 500. Every 100 epoch, print the loss and accuracy of model(print rate). If save= is true, save weight and bias in pickle. Default: save=False
 
   * Predict
     + predicted = phidnet.model.predict(input, exponential=True, precision=2)
