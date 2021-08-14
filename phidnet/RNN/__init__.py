@@ -1,3 +1,3 @@
-__all__ = ['rnn']
+__all__ = ['recurrent']
 
 from phidnet.RNN import *

@@ -38,7 +38,7 @@ phidnet.set.compile(input=X, target=T)
 
 ############################################### Fit model
 # phidnet.load.model('E:\Programming\Project\phidnet\examples')
-phidnet.model.fit(epoch=10, optimizer=AdaGrad, batch=5000, print_rate=1, save=False)
+phidnet.model.fit(epoch=10, optimizer=AdaGrad, batch=1000, print_rate=1, save=False)
 phidnet.model.show_fit()
 ###############################################
 

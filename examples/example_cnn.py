@@ -39,7 +39,7 @@ def create_linear_model():
 
 
 model = create_linear_model()
-model.fit(X, T, epochs=20, plot=True, batch_size=10000, print_rate=1, val_x=X_test, val_y=T_test, val_size=20)
+model.fit(X, T, epochs=10, plot=True, batch_size=1000, print_rate=1, val_x=X_test, val_y=T_test, val_size=20)
 
 
 

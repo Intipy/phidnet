@@ -17,7 +17,7 @@ phidnet.load.model('E:\Programming\Project\phidnet\examples')
 
 
 
-for number in range(1, 5):
+for number in range(1, 10):
     predicted = phidnet.model.predict(X_test[number], exponential=False, precision=2)   # Default: exponential=True, precision=6
     print('predict:', predicted)
     print('predict:', np.argmax(predicted))
