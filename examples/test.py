@@ -1,6 +1,7 @@
-x = 3
-y = 4
-print(x, y)
+num = input("두개의 정수 입력: ").split(' ')
 
-x, y = y, x
-print(x, y)
+sum = int(num[0]) + int(num[1])
+print("합은 %d입니다" % sum)
+
+
+

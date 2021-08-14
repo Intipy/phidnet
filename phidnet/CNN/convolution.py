@@ -50,6 +50,7 @@ class CNN:
         for epoch in range(epochs):
             iterator = range(n_iter)
             for batch in iterator:
+                print(batch)
                 batch_x = X[batch * batch_size : (batch + 1) * batch_size]
                 batch_y = Y[batch * batch_size : (batch + 1) * batch_size]
 

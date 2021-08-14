@@ -21,19 +21,19 @@ print("test output shape:", T_test.shape)
 def create_linear_model():
     model = phidnet.CNN.convolution.CNN()
 
-    model.add_layer(phidnet.CNN.layer.Conv(1, 1, kernel_shape=(3, 3), stride=(1, 1), padding=False))
+    model.add_layer(phidnet.CNN.layer.Conv(1, 1, kernel_shape=(5, 5), stride=(1, 1), padding=True))
     model.add_layer(phidnet.CNN.layer.Relu())
     model.add_layer(phidnet.CNN.layer.Max_Pooling(shape=(2, 2), stride=(2, 2)))
 
     model.add_layer(phidnet.CNN.layer.Flatten())
 
-    model.add_layer(phidnet.CNN.layer.Linear(196, 100))
+    model.add_layer(phidnet.CNN.layer.Linear(144, 100))
     model.add_layer(phidnet.CNN.layer.Relu())
     model.add_layer(phidnet.CNN.layer.Linear(100, 10))
     model.add_layer(phidnet.CNN.layer.Relu())
     model.add_layer(phidnet.CNN.layer.Output())
 
-    model.set_optimizer(phidnet.CNN.optimizer.Adam(0.0001))
+    model.set_optimizer(phidnet.CNN.optimizer.Adam(0.01))
     return model
 
 
