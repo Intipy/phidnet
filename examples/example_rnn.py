@@ -49,3 +49,4 @@ print(sentence_dic)   # {'you': 0, 'say': 1, 'goodbye': 2, 'and': 3, 'i': 4, 'he
 print(encoded_dic)
 print(X)
 print(T)
+print("============================")

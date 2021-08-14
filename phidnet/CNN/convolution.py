@@ -74,11 +74,11 @@ class CNN:
                     val_losses_text = "  Validation Loss: " + str(val_loss)
 
             if epoch % print_rate == 0:
-                print("|____________________________")
+                print("|============================")
                 print("|epoch: ", epoch + 1)
                 print("|loss: " + str(loss) + val_losses_text)
                 #print("|acc: ", accuracy(Y, T), '%')
-                print("|____________________________")
+                print("|============================")
                 print('\n')
 
 

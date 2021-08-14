@@ -38,26 +38,26 @@ def fit(epoch=1, optimizer=None, batch=100, print_rate=1, save=False):   # Fit m
 
 
         if (e % print_rate == 0):   # Print loss
-            print("|____________________________")
+            print("|============================")
             print("|epoch: ", e)
             print("|loss: ", error)
             print("|acc: ", acc, '%')
-            print("|____________________________")
+            print("|============================")
             print('\n')
 
 
     if save == True:
-        print("|____________________________")
+        print("|============================")
         print("|Model saved in current directory.")
-        print("|____________________________")
+        print("|============================")
         with open("saved_weight.pickle", "wb") as fw:  # Save weight and bias in pickle
             pickle.dump(network_data.weight, fw)
         with open("saved_bias.pickle", "wb") as fw:
             pickle.dump(network_data.bias, fw)
     else:
-        print("|____________________________")
+        print("|============================")
         print("|Model not saved.")
-        print("|____________________________")
+        print("|============================")
     return 0
 
 
