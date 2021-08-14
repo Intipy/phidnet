@@ -9,7 +9,8 @@
 
 ## 2. Install phidnet
   * `pip install phidnet`
-  * PyPI url: https://pypi.org/project/phidnet/
+  * PyPI: https://pypi.org/project/phidnet/
+  * GitHub: https://github.com/Intipy/phidnet
 
 ---------
 
