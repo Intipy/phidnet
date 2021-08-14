@@ -6,7 +6,6 @@
 .idea/**/dictionaries
 .idea/**/shelf
 .idea
-.examples/test.py
 # AWS User-specific
 .idea/**/aws.xml
 
@@ -244,3 +243,4 @@ cython_debug/
 /phidnet/command.txt
 /command.txt
 /.git.bfg-report/
+/examples/test.py
