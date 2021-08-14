@@ -14,6 +14,6 @@ __all__ = ['activation',
            'datasets']
 
 from phidnet import *
-from phidnet.matrix import matrix
-from phidnet.matrix.matrix import array
+from phidnet.matrix import matrix   # matrix.py 
+from phidnet.matrix.matrix import array   # array()
 from phidnet.matrix.matrix_class import Matrix
