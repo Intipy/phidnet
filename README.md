@@ -94,6 +94,7 @@
   * Add, Multiplication, Subtraction
     + Equal to other classes of operations
     + mat1 + mat2, mat1 - mat2, mat1 * mat2
+    + mat + 1, mat * 2, mat / 3
 
   * Dot product
     + phidnet.matrix.dot(mat1, mat2)
@@ -113,7 +114,7 @@
     + 1-2 row, 1-1 column (0 based index)
 
   * Slicing of matrix(by python slicing)
-    + sliced_matrix = mat[ " Python Slicing Grammar " ]
+    + sliced_matrix = mat["slicing with string"]
     + sliced_matrix = mat["1:3,1:2"]
     + 1-2 row, 1-1 column (0 based index)
     + sliced_matrix = mat[",1:2"]
@@ -127,17 +128,23 @@
     + def function(x): return 2*x
     + mapped_matrix = phidnet.Matrix.map(mat, function)
   
-  * 
+  * Power
+    + pow_matrix = mat ** n
+    + mat^n (for every element in matrix)
+
+  * Else
+    + .
+    + .
 
 ---------
 
 ## 6. Use phidnet convolution neural network
   * Set layer
-    + 
-    + 
+    + .
+    + .
   * writing
-    +
-    +
+    +.
+    +.
 
 ---------
 
