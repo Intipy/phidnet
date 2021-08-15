@@ -67,16 +67,22 @@
     + SGD is the instance of phidnet.optimizer.SGD() class. 
     + Batch size is 5000. 
     + val_loss is loss of test dataset. This helps prevent overfitting. but, calculating this makes the fitting slow.
-    + Every 2 epoch, print the loss and accuracy of model(print rate). 
-    + If save= is true, save weight and bias in pickle. Default: save=False
+    + Every 2 epoch, print the loss and accuracy of model(print rate).
 
   * Predict
     + predicted = phidnet.model.predict(input, exponential=True, precision=2)
     + In the example, the model returns the predicted value in the predicted variable. If exponential= is True, the model returns exponential representation value like 1e-6. When exponential=False, The model returns the value represented by the decimal like 0.018193. The model returns precise values as set to precision. When output is 0.27177211, precision=3, output is 0.271.
 
+  * Save
+    + You can save the model with .pickle file.
+    + phidnet.save.model('saved_model')
+    + It saves trained model in current directory.
+    + phidnet.save.model('saved_model', dir='C:\examples')
+    + It saves trained model in C:\examples directory.
+
   * Load
-    + phidnet.load.model('C:\examples')
-    + If you set it to save=True and trained the model, there would be a file called saved_weight, saved_bias. If the file is in C:\examples\saved_... , you can load trained weight and bias as in the example.
+    + phidnet.load.model('C:\examples\saved_model.pickle')
+    + You can load trained model.
 
   * View fitting
     + phidnet.model.show_loss()

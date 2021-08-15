@@ -14,7 +14,7 @@ from phidnet import gradient
 
 
 
-def fit(epoch=1, optimizer=None, batch=100, val_loss=False, print_rate=1, save=False):   # Fit model that we`ve built
+def fit(epoch=1, optimizer=None, batch=100, val_loss=False, print_rate=1):   # Fit model that we`ve built
     iteration = 0
     len_t = len(network_data.target)
 
@@ -46,26 +46,11 @@ def fit(epoch=1, optimizer=None, batch=100, val_loss=False, print_rate=1, save=F
 
         if (e % print_rate == 0):   # Print loss
             print("|============================")
-            print("|epoch: ", e)
+            print("|epoch: ", e, "/",epoch, sep="")
             print("|loss: ", error)
             print("|acc: ", acc, '%')
             print("|============================")
             print('\n')
-
-
-    if save == True:
-        print("|============================")
-        print("|Model saved in current directory.")
-        print("|============================")
-        with open("saved_weight.pickle", "wb") as fw:  # Save weight and bias in pickle
-            pickle.dump(network_data.weight, fw)
-        with open("saved_bias.pickle", "wb") as fw:
-            pickle.dump(network_data.bias, fw)
-    else:
-        print("|============================")
-        print("|Model not saved.")
-        print("|============================")
-
 
     return 0
 

@@ -39,21 +39,8 @@ phidnet.set.test(input=X_test, target=T_test)   # If you want to get loss of tes
 
 
 ############################################### Fit model
-# phidnet.load.model('E:\Programming\Project\phidnet\examples')
-phidnet.model.fit(epoch=20, optimizer=AdaGrad, batch=5000, val_loss=True, print_rate=1, save=True)   # Showing validation loss make fitting slow
+phidnet.model.fit(epoch=10, optimizer=AdaGrad, batch=5000, val_loss=True, print_rate=1)   # Showing validation loss make fitting slow
+# phidnet.save.model("saved_model")
 phidnet.model.show_loss()
 phidnet.model.show_accuracy()
 ###############################################
-
-
-
-############################################### Predict
-number = 110
-predicted = phidnet.model.predict(X_test[number], exponential=False, precision=2)   # Default: exponential=True, precision=6
-print('predict:', predicted)
-print('predict:', np.argmax(predicted))
-print("right answer:", T_test[number])
-img = X_test[number].reshape(28, 28)
-plt.imshow(img, cmap='gray')
-plt.show()
-###############################################s

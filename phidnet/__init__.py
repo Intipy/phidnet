@@ -9,6 +9,7 @@ __all__ = ['activation',
            'gradient',
            'optimizer',
            'load',
+           'save',
            'CNN',
            'RNN',
            'datasets']

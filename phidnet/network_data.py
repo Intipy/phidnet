@@ -3,6 +3,7 @@ Validation_loss_list = []   # Record the change in validation loss
 Epoch_list = []    # Record the change in Epoch
 Acc_list = []      # Record the change in accuracy
 
+params = {}   # Save weight and bias to save model
 weight = {}     # Save data of neural network weight in dictionary
 bias = {}     # Save data of neural network bias in dictionary
 deltaWeight = {}     # Save data of neural network delta weight in dictionary
