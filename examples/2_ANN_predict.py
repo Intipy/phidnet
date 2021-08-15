@@ -9,10 +9,6 @@ X_test = X_test / 255
 
 
 
-phidnet.set.layer(784)
-phidnet.set.layer(200, activation=phidnet.activation.Relu())
-phidnet.set.layer(10, activation=phidnet.activation.Softmax())
-phidnet.set.compile()
 phidnet.load.model('E:\Programming\Project\phidnet\examples\saved_model.pickle')
 
 
