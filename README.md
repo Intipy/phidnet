@@ -153,13 +153,24 @@
 
 ## 6. Use phidnet convolution neural network
   * Set layer
-    + .
-    + .
+    + . 
+    + . 
   * writing
-    +.
-    +.
+    + . 
+    + . 
 
 ---------
 
-## 7. Example phidnet
+## 7. Use phidnet recurrent neural network
+  * Set layer
+    + . 
+    + . 
+  * writing
+    + . 
+    + . 
+    
+
+---------
+
+## 8. Example phidnet
   * Refer to examples for details.
