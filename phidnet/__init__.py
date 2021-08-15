@@ -12,6 +12,7 @@ __all__ = ['activation',
            'save',
            'CNN',
            'RNN',
+           'GUI',
            'datasets']
 
 from phidnet import *
