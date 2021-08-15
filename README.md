@@ -56,10 +56,19 @@
   * Compile neural network 
     + phidnet.set.compile(input=X, target=T)
     + If you built the model, you can compile that model with setting input and output data.
+  
+  * Set test dataset
+    + phidnet.set.test(input=X_test, target=T_test)
+    + If you want to calculate loss of test dataset(val_loss=True), you need to set this.
 
   * Fit model
-    + phidnet.model.fit(epoch=1000, optimizer=SGD, batch=500, print_rate=100, save=True) 
-    + In the example, train the model for epoch. SGD is the instance of phidnet.optimizer.SGD() class. Batch size is 500. Every 100 epoch, print the loss and accuracy of model(print rate). If save= is true, save weight and bias in pickle. Default: save=False
+    + phidnet.model.fit(epoch=30, optimizer=SGD, batch=5000, val_loss=True, print_rate=2, save=True) 
+    + In the example, train the model for epoch. 
+    + SGD is the instance of phidnet.optimizer.SGD() class. 
+    + Batch size is 5000. 
+    + val_loss is loss of test dataset. This helps prevent overfitting. but, calculating this makes the fitting slow.
+    + Every 2 epoch, print the loss and accuracy of model(print rate). 
+    + If save= is true, save weight and bias in pickle. Default: save=False
 
   * Predict
     + predicted = phidnet.model.predict(input, exponential=True, precision=2)
@@ -70,8 +79,10 @@
     + If you set it to save=True and trained the model, there would be a file called saved_weight, saved_bias. If the file is in C:\examples\saved_... , you can load trained weight and bias as in the example.
 
   * View fitting
-    + phidnet.model.show_fit()
-    + It shows a change in loss and accuracy.
+    + phidnet.model.show_loss()
+    + It shows a change in loss and validation loss.
+    + phidnet.model.show_accuracy()
+    + It shows a change in accuracy.
 
   * One hot encoding 
     + phidnet.one_hot_encode.encode(number, length=length)

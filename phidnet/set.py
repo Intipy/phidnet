@@ -9,6 +9,7 @@ def layer(l, activation=None):   # Make shape of layer
         pass
     else:
         phidnet.network_data.active.append(activation)
+    return 0
 
 
 
@@ -20,6 +21,14 @@ def compile(input=None, target=None):   # Compile model
 
     input_data(input)
     target_data(target)
+    return 0
+
+
+
+def test(input=None, target=None):   # Set test dataset
+    test_input_data(input)
+    test_target_data(target)
+    return 0
 
 
 
@@ -51,8 +60,6 @@ def build_network(layer_num):   # Build neural network, make nodes and set numbe
 
 
 
-
-
 def input_data(inp):   # Set input data X
     data = np.array(inp)
     phidnet.network_data.X = data
@@ -64,4 +71,18 @@ def input_data(inp):   # Set input data X
 def target_data(inp):   # Set output data T (Target)
     data = np.array(inp)
     phidnet.network_data.target = data
+    return 0
+
+
+
+def test_input_data(inp):   # Set input data X
+    data = np.array(inp)
+    phidnet.network_data.X_test = data
+    return 0
+
+
+
+def test_target_data(inp):   # Set output data T (Target)
+    data = np.array(inp)
+    phidnet.network_data.T_test = data
     return 0

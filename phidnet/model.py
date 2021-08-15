@@ -14,9 +14,9 @@ from phidnet import gradient
 
 
 
-def fit(epoch=1, optimizer=None, batch=100, print_rate=1, save=False):   # Fit model that we`ve built
-    len_t = len(network_data.target)
+def fit(epoch=1, optimizer=None, batch=100, val_loss=False, print_rate=1, save=False):   # Fit model that we`ve built
     iteration = 0
+    len_t = len(network_data.target)
 
     for e in range(0, epoch + 1):   # Repeat for epochs
 
@@ -32,9 +32,16 @@ def fit(epoch=1, optimizer=None, batch=100, print_rate=1, save=False):   # Fit m
             iteration += 1
             error = mean_squared_error(Y, T)
             acc = accuracy(Y, T)
+
             network_data.Epoch_list.append(iteration)   # Append values to list that we`ve made
             network_data.Loss_list.append(error)
             network_data.Acc_list.append(acc)
+
+            if val_loss == True:
+                T_test = network_data.T_test
+                Y_test = feedforward.feedforward(network_data.X_test)
+                val_error = mean_squared_error(Y_test, T_test)
+                network_data.Validation_loss_list.append(val_error)
 
 
         if (e % print_rate == 0):   # Print loss
@@ -58,6 +65,8 @@ def fit(epoch=1, optimizer=None, batch=100, print_rate=1, save=False):   # Fit m
         print("|============================")
         print("|Model not saved.")
         print("|============================")
+
+
     return 0
 
 
@@ -76,12 +85,26 @@ def predict(inp, exponential=True, precision=6):   # Predict
 
 
 
-def show_fit():   # Show change of epoch, and loss
+def show_loss():   # Show change of epoch, and loss
     plt.plot(network_data.Epoch_list, network_data.Loss_list, color='red')
+    if len(network_data.Validation_loss_list) == 0:
+        pass
+    else:
+        plt.plot(network_data.Epoch_list, network_data.Validation_loss_list, color='orange')
+    plt.xlabel('Epoch (iteration * epoch)')
+    plt.ylabel('Loss')
+    plt.legend(['Loss', 'Validation loss'])
+    plt.show()
+    return 0
+
+
+
+def show_accuracy():   # Show change of epoch, and accuracy
     plt.plot(network_data.Epoch_list, network_data.Acc_list, color='green')
     plt.xlabel('Epoch (iteration * epoch)')
-    plt.ylabel('Loss & Accuracy')
-    plt.legend(['Loss', 'Accuracy'])
+    plt.ylabel('Accuracy')
+    plt.legend(['Accuracy'])
+    plt.ylim([0, 100])
     plt.show()
     return 0
 

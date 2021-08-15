@@ -50,3 +50,5 @@ print(encoded_dic)
 print(X)
 print(T)
 print("============================")
+
+
