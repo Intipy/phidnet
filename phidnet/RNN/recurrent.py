@@ -3,6 +3,7 @@ from phidnet.activation import Softmax
 softmax = Softmax()
 
 
+
 class RNN:
     def __init__(self, Wx, Wh, b):
         self.params = [Wx, Wh, b]
@@ -33,27 +34,21 @@ class RNN:
         self.grads[2][...] = db
 
         return dx, dh_prev
-
-
-
+    
+    
+    
 class TimeRNN:
     def __init__(self, Wx, Wh, b, stateful=False):
         self.params = [Wx, Wh, b]
         self.grads = [np.zeros_like(Wx), np.zeros_like(Wh), np.zeros_like(b)]
-        self.layers = None  # RNN 계층을 리스트로 저장
+        self.layers = None
 
         self.h, self.dh = None, None
         self.stateful = stateful
 
-    def set_state(self, h):
-        self.h = h
-
-    def reset_state(self):
-        self.h = None
-
     def forward(self, xs):
         Wx, Wh, b = self.params
-        N, T, D = xs.shape  # N(batch), T(time steps), D(input size)
+        N, T, D = xs.shape
         D, H = Wx.shape
 
         self.layers = []
@@ -80,7 +75,7 @@ class TimeRNN:
         grads = [0, 0, 0]
         for t in reversed(range(T)):
             layer = self.layers[t]
-            dx, dh = layer.backward(dhs[:, t, :] + dh)  # 합산된 기울기
+            dx, dh = layer.backward(dhs[:, t, :] + dh)
             dxs[:, t, :] = dx
 
             for i, grad in enumerate(layer.grads):
@@ -92,8 +87,14 @@ class TimeRNN:
 
         return dxs
 
+    def set_state(self, h):
+        self.h = h
 
-
+    def reset_state(self):
+        self.h = None
+        
+        
+        
 class TimeAffine:
     def __init__(self, W, b):
         self.params = [W, b]
@@ -126,9 +127,9 @@ class TimeAffine:
         self.grads[1][...] = db
 
         return dx
-
-
-
+    
+    
+    
 class TimeSoftmaxWithLoss:
     def __init__(self):
         self.params, self.grads = [], []
@@ -148,7 +149,7 @@ class TimeSoftmaxWithLoss:
         ts = ts.reshape(N * T)
         mask = mask.reshape(N * T)
 
-        ys = softmax.forward(xs)
+        ys = softmax(xs)
         ls = np.log(ys[np.arange(N * T), ts])
         ls *= mask  # ignore_label에 해당하는 데이터는 손실을 0으로 설정
         loss = -np.sum(ls)
@@ -164,7 +165,7 @@ class TimeSoftmaxWithLoss:
         dx[np.arange(N * T), ts] -= 1
         dx *= dout
         dx /= mask.sum()
-        dx *= mask[:, np.newaxis]  # ignore_labelㅇㅔ 해당하는 데이터는 기울기를 0으로 설정
+        dx *= mask[:, np.newaxis]  # ignore_label 해당하는 데이터는 기울기를 0으로 설정
 
         dx = dx.reshape((N, T, V))
 
