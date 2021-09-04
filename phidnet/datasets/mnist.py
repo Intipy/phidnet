@@ -4,40 +4,51 @@ import os
 
 
 def csv2list(filename):
-    file = open(os.path.realpath(__file__)[:-8] + filename, 'r', encoding='utf-8')
-    csvfile = csv.reader(file)
-    lists = []
-    for item in csvfile:
-        lists.append(item)
+    csv_file = open(os.path.realpath(__file__)[:-8] + filename, 'r', encoding='utf-8')
+    csv_read = csv.reader(csv_file)
+    lists = [item for item in csv_read]
     return lists
 
 
+
 def load():
-    dir = os.path.realpath(__file__)[:-8]
+    csv_file = open(os.path.realpath(__file__)[:-8] + "mnist_train.csv", 'r', encoding='utf-8')
+    csv_read = csv.reader(csv_file)
+    train = np.array([item for item in csv_read], dtype='int16')
 
-    data = np.load(dir + 'mnist_train.npy')
+    X = train[0:, 1:]
+    T = train[0:, :1]
 
-    X = data[0:, 1:]
-    T = data[0:, :1]
-    data_test = np.load(dir + 'mnist_test.npy')
-    x_test = data_test[0:, 1:]
-    t_test = data_test[0:, :1]
+
+    csv_file = open(os.path.realpath(__file__)[:-8] + "mnist_test.csv", 'r', encoding='utf-8')
+    csv_read = csv.reader(csv_file)
+    test = np.array([item for item in csv_read], dtype='int16')
+
+    x_test = test[0:, 1:]
+    t_test = test[0:, :1]
+
     return X, T, x_test, t_test
 
 
 def load_2d():
-    dir = os.path.realpath(__file__)[:-8]
+    csv_file = open(os.path.realpath(__file__)[:-8] + "mnist_train.csv", 'r', encoding='utf-8')
+    csv_read = csv.reader(csv_file)
+    train = np.array([item for item in csv_read], dtype='int16')
 
-    data = np.load(dir + 'mnist_train.npy')
+    X = train[0:, 1:]
+    T = train[0:, :1]
 
-    X = data[0:, 1:]
-    T = data[0:, :1]
-    data_test = np.load(dir + 'mnist_test.npy')
-    X_test = data_test[0:, 1:]
-    T_test = data_test[0:, :1]
 
-    X = X.reshape(42000, 28, 28, 1)
-    X_test = X_test.reshape(10000, 28, 28, 1)
+    csv_file = open(os.path.realpath(__file__)[:-8] + "mnist_test.csv", 'r', encoding='utf-8')
+    csv_read = csv.reader(csv_file)
+    test = np.array([item for item in csv_read], dtype='int16')
 
-    return X, T, X_test, T_test
+    x_test = test[0:, 1:]
+    t_test = test[0:, :1]
+
+
+    X = X.reshape(60000, 28, 28, 1)
+    x_test = x_test.reshape(10000, 28, 28, 1)
+
+    return X, T, x_test, t_test
 
