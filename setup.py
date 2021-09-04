@@ -10,7 +10,7 @@ with open("README.md", "r", encoding='UTF-8') as fh:
 setuptools.setup(
     
     name="phidnet",
-    version="0.0.6",
+    version="0.0.7",
     author="Intipy",
     author_email="jios6790@gmail.com",
     description="Phidnet",
