@@ -1,150 +1,51 @@
-from phidnet.CNN import preprocessing, optimizer, layer
-
-
-class CNN:
-    def __init__(self):
-        self.values = {}
-        self.gradients = {}
-        self.optimizer = None
-        self.model_layers = []
-        self.l2 = False
-        self.l2_coef = 0.0001
-
-    def add_layer(self, layer):
-        self.model_layers.append(layer)
-
-    def forward(self, X):
-        self.values["X0"] = X
-        for i in range(len(self.model_layers)):
-            X = self.model_layers[i].operation(X)
-            self.values["X" + str(i + 1)] = X
-        return X
-
-    def backward(self, Y):
-        self.gradients["X" + str(len(self.model_layers) - 1)] = self.__grad_from_loss(
-            Y, self.values["X" + str(len(self.model_layers))]
-        )
-        for i in reversed(range(len(self.model_layers) - 1)):
-            self.gradients["X" + str(i)] = self.model_layers[i].gradient(
-                self.values["X" + str(i)], self.gradients["X" + str(i + 1)]
-            )
-
-    def fit(self, X, Y, epochs, batch_size=None, val_x=None, val_y=None, val_size=None, plot=False, print_rate=10):
-        if batch_size == None:
-            batch_size = X.shape[0]
-        from numpy import array
-
-        val_x = array(val_x)
-        losses = []
-        val_losses = []
-        val_losses_text = ""
-        validating = not (val_x.any() == None)
-        if validating:
-            if val_size == None:
-                val_size = val_x.shape[0]
+import numpy as np
+from phidnet.CNN.process import im2col, col2im
 
 
 
-        n_iter = int(X.shape[0] / batch_size)
+class Convolution:
+    def __init__(self, W, b, stride=1, pad=0):
+        self.W = W
+        self.b = b
+        self.stride = stride
+        self.pad = pad
 
-        for epoch in range(epochs):
-            iterator = range(n_iter)
-            for batch in iterator:
-                batch_x = X[batch * batch_size : (batch + 1) * batch_size]
-                batch_y = Y[batch * batch_size : (batch + 1) * batch_size]
+        # 중간 데이터（backward 시 사용）
+        self.x = None
+        self.col = None
+        self.col_W = None
 
-                yhat = self.forward(batch_x)
-                self.backward(batch_y)
+        # 가중치와 편향 매개변수의 기울기
+        self.dW = None
+        self.db = None
 
-                loss = self.loss(batch_y, yhat)
-                losses.append(loss)
+    def forward(self, x):
+        FN, C, FH, FW = self.W.shape
+        N, C, H, W = x.shape
+        out_h = 1 + int((H + 2 * self.pad - FH) / self.stride)
+        out_w = 1 + int((W + 2 * self.pad - FW) / self.stride)
 
-                self.apply_gradients()
+        col = im2col(x, FH, FW, self.stride, self.pad)
+        col_W = self.W.reshape(FN, -1).T
 
-                if self.l2:
-                    self.__apply_l2()
+        out = np.dot(col, col_W) + self.b
+        out = out.reshape(N, out_h, out_w, -1).transpose(0, 3, 1, 2)
 
-                if validating:
-                    val_x_batch, val_y_batch = preprocessing.select_n(
-                        val_x, val_y, val_size
-                    )
-                    o = self.forward(val_x_batch)
-                    val_loss = self.loss(val_y_batch, o)
-                    val_losses.append(val_loss)
-                    val_losses_text = "  Validation Loss: " + str(val_loss)
+        self.x = x
+        self.col = col
+        self.col_W = col_W
 
-            if epoch % print_rate == 0:
-                print("|============================")
-                print("|epoch: ", epoch + 1)
-                print("|loss: " + str(loss) + val_losses_text)
-                #print("|acc: ", accuracy(Y, T), '%')
-                print("|============================")
-                print('\n')
+        return out
 
+    def backward(self, dout):
+        FN, C, FH, FW = self.W.shape
+        dout = dout.transpose(0, 2, 3, 1).reshape(-1, FN)
 
-        if plot == True:
-            import matplotlib.pyplot as plt
+        self.db = np.sum(dout, axis=0)
+        self.dW = np.dot(self.col.T, dout)
+        self.dW = self.dW.transpose(1, 0).reshape(FN, C, FH, FW)
 
-            plt.plot(losses)
-            if validating:
-                plt.plot(val_losses)
-            plt.legend(["Loss", "Validation Loss"])
-            plt.title("Loss")
-            plt.xlabel("Epoch")
-            plt.ylabel("Loss")
-            plt.show()
+        dcol = np.dot(dout, self.col_W.T)
+        dx = col2im(dcol, self.x.shape, FH, FW, self.stride, self.pad)
 
-    def predict(self, x):
-
-        return self.forward(x)
-
-    def test_accuracy(self, x, y):
-        from numpy import argmax, sum
-
-        predictions = self.predict(x)
-        correct = predictions == argmax(y, axis=1)
-        return sum(correct) / x.shape[0]
-
-    def set_optimizer(self, optimizer):
-        self.optimizer = optimizer
-
-    def apply_gradients(self):
-        parameters, gradients = self.get_weights()
-        self.set_weights(self.optimizer.step(parameters, gradients))
-
-    def loss(self, y, yhat):
-        from numpy import average, sum, log
-
-        return average(-sum(y * log(yhat), axis=1))
-
-    def __grad_from_loss(self, y, yhat):
-        return yhat - y
-
-    def __apply_l2(self):
-        parameters, _ = self.get_weights()
-
-        for param in parameters:
-            parameters[param] -= self.l2_coef * 2 * parameters[param]
-        self.set_weights(parameters)
-
-    def get_weights(self):
-        params = {}
-        gradients = {}
-        for l in range(len(self.model_layers)):
-            if self.model_layers[l].type == "Linear":
-                params["W" + str(l + 1)] = self.model_layers[l].W
-                params["b" + str(l + 1)] = self.model_layers[l].b
-                gradients["W" + str(l + 1)] = self.model_layers[l].dW
-                gradients["b" + str(l + 1)] = self.model_layers[l].db
-            elif self.model_layers[l].type == "Conv":
-                params["W" + str(l + 1)] = self.model_layers[l].W
-                gradients["W" + str(l + 1)] = self.model_layers[l].dW
-        return params, gradients
-
-    def set_weights(self, weights):
-        for l in range(len(self.model_layers)):
-            if self.model_layers[l].type == "Linear":
-                self.model_layers[l].W = weights["W" + str(l + 1)]
-                self.model_layers[l].b = weights["b" + str(l + 1)]
-            elif self.model_layers[l].type == "Conv":
-                self.model_layers[l].W = weights["W" + str(l + 1)]
+        return dx

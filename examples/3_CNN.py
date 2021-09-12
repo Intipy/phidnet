@@ -16,38 +16,31 @@ print("test output shape:", T_test.shape)
 
 
 
+############################################### Optimizer & Activation function setting
+Relu = phidnet.activation.Relu()
+Softmax = phidnet.activation.Softmax()
+
+SGD = phidnet.optimizer.SGD(lr=0.01)
+Momentum = phidnet.optimizer.Momentum(lr=0.01, momentum=0.9)
+AdaGrad = phidnet.optimizer.AdaGrad(lr=0.01)
 ###############################################
-def create_linear_model():
-    model = phidnet.CNN.convolution.CNN()
-
-    model.add_layer(phidnet.CNN.layer.Conv(1, 1, kernel_shape=(5, 5), stride=(1, 1), padding=True))
-    model.add_layer(phidnet.CNN.layer.Relu())
-    model.add_layer(phidnet.CNN.layer.Max_Pooling(shape=(2, 2), stride=(2, 2)))
-
-    model.add_layer(phidnet.CNN.layer.Flatten())
-
-    model.add_layer(phidnet.CNN.layer.Linear(144, 100))
-    model.add_layer(phidnet.CNN.layer.Relu())
-    model.add_layer(phidnet.CNN.layer.Linear(100, 10))
-    model.add_layer(phidnet.CNN.layer.Relu())
-    model.add_layer(phidnet.CNN.layer.Output())
-
-    model.set_optimizer(phidnet.CNN.optimizer.Adam(0.01))
-    return model
 
 
 
-model = create_linear_model()
-model.fit(X, T, epochs=3, plot=True, batch_size=5000, print_rate=1, val_x=X_test, val_y=T_test, val_size=20)
+############################################### Build neural network
+phidnet.CNN.set.layer()
+phidnet.set.layer(784)
+phidnet.set.layer(200, activation=Relu)
+phidnet.set.layer(10, activation=Softmax)
+phidnet.set.compile(input=X, target=T)
+phidnet.set.test(input=X_test, target=T_test)   # If you want to get loss of test data, set the test data and fit the model with "val_loss=True"
+###############################################
 
 
 
-number = 111
-predicted = model.predict(X_test[number])
-print('predict:', predicted)
-print('predict:', np.argmax(predicted))
-print("right answer:", T_test[number])
-img = X_test[number].reshape(28, 28)
-plt.imshow(img, cmap='gray')
-plt.show()
+############################################### Fit model
+phidnet.model.fit(epoch=20, optimizer=AdaGrad, batch=5000, val_loss=True, print_rate=1)   # Showing validation loss make fitting slow
+#phidnet.save.model("saved_model")
+phidnet.model.show_loss()
+phidnet.model.show_accuracy()
 ###############################################

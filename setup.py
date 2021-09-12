@@ -10,7 +10,7 @@ with open("README.md", "r", encoding='UTF-8') as fh:
 setuptools.setup(
     
     name="phidnet",
-    version="0.1.0",
+    version="0.1.1",
     author="Intipy",
     author_email="jios6790@gmail.com",
     description="Phidnet",
@@ -29,7 +29,13 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+
+
+    package_dir={'phidnet': 'phidnet'},
+    package_data={'phidnet': ['datasets/*']},
+    include_package_data=True,
     
     python_requires='>=3.6',
+
     
 )

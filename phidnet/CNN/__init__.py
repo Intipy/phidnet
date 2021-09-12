@@ -1,6 +1,6 @@
-__all__ = ['convolution',
-           'layer',
-           'optimizer',
-           'preprocessing']
+__all__ = ['process',
+           'convolution',
+           'pool',
+           'set']
 
 from phidnet.CNN import *
