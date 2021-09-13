@@ -38,7 +38,7 @@ phidnet.set.test(input=X_test, target=T_test)   # If you want to get loss of tes
 
 
 ############################################### Fit model
-phidnet.model.fit(epoch=20, optimizer=AdaGrad, batch=5000, val_loss=True, print_rate=1)   # Showing validation loss make fitting slow
+phidnet.model.fit(epoch=20, optimizer=AdaGrad, batch=10000, val_loss=True, print_rate=1)   # Showing validation loss make fitting slow
 #phidnet.save.model("saved_model")
 phidnet.model.show_loss()
 phidnet.model.show_accuracy()

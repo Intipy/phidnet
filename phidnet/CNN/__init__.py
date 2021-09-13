@@ -5,6 +5,8 @@ __all__ = ['process',
            'network_data',
            'feedforward',
            'model',
-           'flat']
+           'affine',
+           'gradient',
+           'optimizer']
 
 from phidnet.CNN import *

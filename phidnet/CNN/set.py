@@ -1,5 +1,5 @@
 import numpy as np
-from phidnet.CNN import convolution, pool, flat
+from phidnet.CNN import convolution, pool, affine
 from phidnet.CNN import network_data
 
 
@@ -28,10 +28,38 @@ def activation(func):
 
 
 
-def flatten(input_dim=(1, 12, 12)):
-    network_data.layer.append(flat.Flatten(input_dim=input_dim))
+def layer(l, activation=None):
+    network_data.affine_shape.append(l)
+    if activation == None:
+        pass
+    else:
+        network_data.active.append(activation)
 
     return 0
+
+
+
+def compile(input=None, target=None):
+    network_data.X = input
+    network_data.target = target
+
+    length = len(network_data.affine_shape)
+    for i in range(length-1):
+        W = np.random.randn(network_data.affine_shape[i], network_data.affine_shape[i+1])
+        b = np.random.randn(network_data.affine_shape[i+1])
+        network_data.layer.append(affine.Affine(W, b))
+        network_data.layer.append(network_data.active[i])
+
+    return 0
+
+
+
+def test(input=None, target=None):
+    network_data.X_test = input
+    network_data.T_test = target
+
+    return 0
+
 
 
 

@@ -52,16 +52,6 @@ class Softmax:   # Softmax class
         return self.out
 
     def backward(self, x):   # derivative of softmax function
-        '''
-        out = self.forward(x)
-        self.out = np.zeros_like(x)
-        for i in range(x.shape[0]):
-            for j in range(x.shape[1]):
-                if i == j:
-                    self.out[i, j] = out[i] * (1 - out[j])
-                else:
-                    self.out[i, j] = -out[i] * out[j]
-        '''
         return 1
 
 
