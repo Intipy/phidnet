@@ -15,12 +15,12 @@ class SGD:   # SGD optimizer
             network_data.bias[i] -= self.lr * network_data.deltaBias[i]
 
     def update(self):
-        network_data.layer[0].W -= network_data.layer[0].dW
-        network_data.layer[0].b -= network_data.layer[0].db
-        network_data.layer[3].W -= network_data.layer[3].dW
-        network_data.layer[3].b -= network_data.layer[3].db
-        network_data.layer[5].W -= network_data.layer[5].dW
-        network_data.layer[5].b -= network_data.layer[5].db
+        network_data.layer[0].W -= 0.01 * network_data.layer[0].dW
+        network_data.layer[0].b -= 0.01 * network_data.layer[0].db
+        network_data.layer[3].W -= 0.01 * network_data.layer[3].dW
+        network_data.layer[3].b -= 0.01 * network_data.layer[3].db
+        network_data.layer[5].W -= 0.01 * network_data.layer[5].dW
+        network_data.layer[5].b -= 0.01 * network_data.layer[5].db
 
 
 

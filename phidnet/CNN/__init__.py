@@ -6,7 +6,7 @@ __all__ = ['process',
            'feedforward',
            'model',
            'affine',
-           'gradient',
+           'backpropagation',
            'optimizer']
 
 from phidnet.CNN import *

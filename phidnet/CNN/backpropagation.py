@@ -11,5 +11,6 @@ def gradient(error):
             pass
         else:
             dout = i.backward(dout)
+            #print("backpropagation:", type(i).__name__)
 
     return 0

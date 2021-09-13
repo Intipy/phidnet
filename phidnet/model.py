@@ -19,7 +19,21 @@ def fit(epoch=1, optimizer=None, batch=100, val_loss=False, print_rate=1):   # F
     len_t = len(network_data.target)
     len_test = len(network_data.T_test)
 
+    T = network_data.target   # initial Y, T, error, accuracy for "0 epoch"
+    Y = feedforward.feedforward(network_data.X)
+    error = mean_squared_error(Y, T) / batch
+    acc = accuracy(Y, T)
+
+
     for e in range(0, epoch + 1):   # Repeat for epochs
+
+        if (e % print_rate == 0):   # Print loss
+            print("|============================")
+            print("|epoch: ", e, "/",epoch, sep="")
+            print("|loss: ", error)
+            print("|acc: ", acc, '%')
+            print("|============================")
+            print('\n')
 
         for iterate in range(0, len_t - batch + 1, batch):
             T = network_data.target[iterate:iterate+batch-1]
@@ -43,15 +57,6 @@ def fit(epoch=1, optimizer=None, batch=100, val_loss=False, print_rate=1):   # F
                 Y_test = feedforward.feedforward(network_data.X_test)
                 val_error = mean_squared_error(Y_test, T_test) / len_test
                 network_data.Validation_loss_list.append(val_error)
-
-
-        if (e % print_rate == 0):   # Print loss
-            print("|============================")
-            print("|epoch: ", e, "/",epoch, sep="")
-            print("|loss: ", error)
-            print("|acc: ", acc, '%')
-            print("|============================")
-            print('\n')
 
     return 0
 
