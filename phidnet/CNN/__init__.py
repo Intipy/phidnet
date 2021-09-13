@@ -1,6 +1,9 @@
 __all__ = ['process',
            'convolution',
            'pool',
-           'set']
+           'set',
+           'network_data',
+           'feedforward',
+           'model']
 
 from phidnet.CNN import *

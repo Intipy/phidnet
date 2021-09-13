@@ -27,20 +27,15 @@ AdaGrad = phidnet.optimizer.AdaGrad(lr=0.01)
 
 
 
-############################################### Build neural network
-phidnet.CNN.set.layer()
-phidnet.set.layer(784)
-phidnet.set.layer(200, activation=Relu)
-phidnet.set.layer(10, activation=Softmax)
-phidnet.set.compile(input=X, target=T)
-phidnet.set.test(input=X_test, target=T_test)   # If you want to get loss of test data, set the test data and fit the model with "val_loss=True"
+###############################################
+phidnet.CNN.set.filter(number=1, channel=1, size=5, stride=1, pad=0)
+phidnet.CNN.set.activation(Relu)
+phidnet.CNN.set.pooling(height=2, width=2, stride=2)
 ###############################################
 
 
 
-############################################### Fit model
-phidnet.model.fit(epoch=20, optimizer=AdaGrad, batch=5000, val_loss=True, print_rate=1)   # Showing validation loss make fitting slow
-#phidnet.save.model("saved_model")
-phidnet.model.show_loss()
-phidnet.model.show_accuracy()
-###############################################
+ret = phidnet.CNN.feedforward.feedforward(X_test)
+print(ret.shape)
+
+

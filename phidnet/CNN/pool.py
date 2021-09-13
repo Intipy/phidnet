@@ -1,4 +1,5 @@
 import numpy as np
+from phidnet.CNN.process import im2col, col2im
 
 
 

@@ -47,8 +47,8 @@ def load_2d():
     t_test = test[0:, :1]
 
 
-    X = X.reshape(60000, 28, 28, 1)
-    x_test = x_test.reshape(10000, 28, 28, 1)
+    X = X.reshape(60000, 1, 28, 28)
+    x_test = x_test.reshape(10000, 1, 28, 28)
 
     return X, T, x_test, t_test
 
