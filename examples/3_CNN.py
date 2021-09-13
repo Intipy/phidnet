@@ -26,11 +26,13 @@ AdaGrad = phidnet.optimizer.AdaGrad(lr=0.01)
 ###############################################
 
 
-
+# (i, j, k) dimension => j×k size image with i channels
+# (n, i, j, k) dimension => j×k size image with i channels (n data)
 ###############################################
-phidnet.CNN.set.filter(number=1, channel=1, size=5, stride=1, pad=0)
+phidnet.CNN.set.filter(filter_number=10, input_channel=1, filter_size=5, stride=1, pad=0)   # 30 filter -> 30 channel
 phidnet.CNN.set.activation(Relu)
 phidnet.CNN.set.pooling(height=2, width=2, stride=2)
+phidnet.CNN.set.flatten(input_dim=(10, 12, 12))
 ###############################################
 
 
@@ -38,4 +40,5 @@ phidnet.CNN.set.pooling(height=2, width=2, stride=2)
 ret = phidnet.CNN.feedforward.feedforward(X_test)
 print(ret.shape)
 
+print(phidnet.CNN.network_data.layer)
 

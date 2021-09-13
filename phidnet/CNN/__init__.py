@@ -4,6 +4,7 @@ __all__ = ['process',
            'set',
            'network_data',
            'feedforward',
-           'model']
+           'model',
+           'flat']
 
 from phidnet.CNN import *
