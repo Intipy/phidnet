@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib import pyplot as plt
 from phidnet.CNN import network_data, feedforward, backpropagation
 from phidnet.error import mean_squared_error
 
@@ -30,10 +31,10 @@ def fit(epoch=1, optimizer=None, batch=100, val_loss=False, print_rate=1):   # F
 
             iteration += 1
             error = mean_squared_error(Y, T) / batch
-            back_error = Y - T
             acc = accuracy(Y, T)
 
-            backpropagation.gradient(back_error)
+
+            backpropagation.gradient(Y - T)
             optimizer.update()
 
             network_data.Epoch_list.append(iteration)   # Append values to list that we`ve made
