@@ -4,9 +4,9 @@ from phidnet import network_data, activation, affine
 
 
 
-def filter(filter_number=10, input_channel=1, filter_size=5, stride=1, pad=0):
-    W = np.random.randn(filter_number, input_channel, filter_size, filter_size)
-    b = np.zeros(filter_number)
+def kernel(kernel_number=10, input_channel=1, kernel_size=(3, 3), stride=1, pad=0):
+    W = np.random.randn(kernel_number, input_channel, kernel_size[0], kernel_size[1])
+    b = np.zeros(kernel_number)
 
     network_data.layer.append(convolution.Convolution(W, b, stride=stride, pad=pad))
 
@@ -14,8 +14,8 @@ def filter(filter_number=10, input_channel=1, filter_size=5, stride=1, pad=0):
 
 
 
-def pooling(height=2, width=2, stride=2):
-    network_data.layer.append(pool.Max(pool_h=height, pool_w=width, stride=stride))
+def pooling(size=(2, 2), stride=2):
+    network_data.layer.append(pool.Max(pool_h=size[0], pool_w=size[1], stride=stride))
 
     return 0
 
