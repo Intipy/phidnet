@@ -9,7 +9,7 @@ X_test = X_test / 255
 
 
 
-phidnet.load.model('E:\Programming\Project\phidnet\examples\saved_model.pickle')
+phidnet.load.model('E:\Programming\Project\phidnet\examples\ANN_saved_model.pickle')
 
 
 
