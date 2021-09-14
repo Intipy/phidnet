@@ -36,7 +36,7 @@ class Relu:
         return dx
 
 
-''' 도함수
+'''
 class Relu:   # ReLU class
     def __init__(self):
         self.out = None

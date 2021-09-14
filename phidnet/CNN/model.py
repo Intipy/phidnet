@@ -6,11 +6,11 @@ from phidnet.error import mean_squared_error
 
 def fit(epoch=1, optimizer=None, batch=100, val_loss=False, print_rate=1):   # Fit model that we`ve built
     iteration = 0
-    len_t = len(network_data.target)
-    len_test = len(network_data.T_test)
+    len_target = network_data.target.shape[0]
+    len_target_test = network_data.T_test.shape[0]
 
-    T = network_data.target   # initial Y, T, error, accuracy for "0 epoch"
-    Y = feedforward.feedforward(network_data.X)
+    T = network_data.target[:batch]   # initial Y, T, error, accuracy for "0 epoch"
+    Y = feedforward.feedforward(network_data.X[:batch])
     error = mean_squared_error(Y, T) / batch
     acc = accuracy(Y, T)
 
@@ -25,7 +25,7 @@ def fit(epoch=1, optimizer=None, batch=100, val_loss=False, print_rate=1):   # F
             print("|============================")
             print('\n')
 
-        for iterate in range(0, len_t - batch + 1, batch):
+        for iterate in range(0, len_target - batch + 1, batch):
             T = network_data.target[iterate:iterate+batch-1]
             Y = feedforward.feedforward(network_data.X[iterate:iterate+batch-1])
 
@@ -33,9 +33,11 @@ def fit(epoch=1, optimizer=None, batch=100, val_loss=False, print_rate=1):   # F
             error = mean_squared_error(Y, T) / batch
             acc = accuracy(Y, T)
 
-
+            ######################
             backpropagation.gradient(Y - T)
             optimizer.update()
+            ##########################
+
 
             network_data.Epoch_list.append(iteration)   # Append values to list that we`ve made
             network_data.Loss_list.append(error)
@@ -44,7 +46,7 @@ def fit(epoch=1, optimizer=None, batch=100, val_loss=False, print_rate=1):   # F
             if val_loss == True:
                 T_test = network_data.T_test
                 Y_test = feedforward.feedforward(network_data.X_test)
-                val_error = mean_squared_error(Y_test, T_test) / len_test
+                val_error = mean_squared_error(Y_test, T_test) / len_target_test
                 network_data.Validation_loss_list.append(val_error)
 
     return 0

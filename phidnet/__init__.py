@@ -19,3 +19,5 @@ from phidnet import *
 from phidnet.matrix import matrix   # matrix.py 
 from phidnet.matrix.matrix import array   # array()
 from phidnet.matrix.matrix_class import Matrix
+
+from phidnet.reset import reset

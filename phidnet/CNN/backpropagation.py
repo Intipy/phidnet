@@ -10,7 +10,11 @@ def gradient(error):
         if str(type(i)) == "<class 'phidnet.activation.Softmax'>":
             pass
         else:
-            dout = i.backward(dout)
+            #print("============")
             #print("backpropagation:", type(i).__name__)
+            #print(type(i).__name__, "input", dout.shape)
+            dout = i.backward(dout)
+            #print(type(i).__name__, "output:", dout.shape)
+
 
     return 0

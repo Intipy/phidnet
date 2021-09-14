@@ -10,3 +10,4 @@ __all__ = ['process',
            'optimizer']
 
 from phidnet.CNN import *
+from phidnet.CNN.reset import reset

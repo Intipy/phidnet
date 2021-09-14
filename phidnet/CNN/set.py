@@ -50,6 +50,13 @@ def compile(input=None, target=None):
         network_data.layer.append(affine.Affine(W, b))
         network_data.layer.append(network_data.active[i])
 
+    idx = 0
+    for i in network_data.layer:
+        if (str(type(i)) == "<class 'phidnet.CNN.convolution.Convolution'>") | (str(type(i)) == "<class 'phidnet.CNN.affine.Affine'>"):
+            network_data.layer_weight_index.append(idx)
+        idx += 1
+
+
     return 0
 
 
