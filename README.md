@@ -62,7 +62,7 @@
     + If you want to calculate loss of test dataset(val_loss=True), you need to set this.
 
   * Fit model
-    + phidnet.model.fit(epoch=30, optimizer=SGD, batch=5000, val_loss=True, print_rate=2, save=True) 
+    + phidnet.model.fit(epoch=30, optimizer=SGD, batch=5000, val_loss=True, print_rate=2) 
     + In the example, train the model for epoch. 
     + SGD is the instance of phidnet.optimizer.SGD() class. 
     + Batch size is 5000. 
