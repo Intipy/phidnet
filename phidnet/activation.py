@@ -12,9 +12,9 @@ class Sigmoid:  # Sigmoid class
         self.out = 1 / (1 + np.exp(-x))
         return self.out
 
-    def backward(self, x):    # derivative of sigmoid function
-        self.out = self.forward(x) * (1 - self.forward(x))
-        return self.out
+    def backward(self, dout):
+        dx = dout * (1.0 - self.out) * self.out
+        return dx
 
 
 
@@ -34,24 +34,6 @@ class Relu:
         dx = dout
 
         return dx
-
-
-'''
-class Relu:   # ReLU class
-    def __init__(self):
-        self.out = None
-
-    def forward(self, x):   # ReLU function
-        self.out = x.copy()
-        self.out[x < 0] = 0
-        return self.out
-
-    def backward(self, x):   # derivative of ReLU function
-        self.out = x.copy()
-        self.out[x < 0] = 0
-        self.out[x > 0] = 1
-        return self.out
-'''
 
 
 

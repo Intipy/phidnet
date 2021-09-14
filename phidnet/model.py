@@ -1,17 +1,8 @@
 import numpy as np
-import random
-import matplotlib.pyplot as plt
-import pickle
-
-from phidnet.error import mean_squared_error, cross_entropy_error
-from phidnet.one_hot_encode import encode, encode_array, get_number
-from phidnet import network_data
-from phidnet import feedforward
-from phidnet import loss
-from phidnet import gradient
-
-
-
+from matplotlib import pyplot as plt
+from phidnet.CNN import *
+from phidnet import network_data, feedforward, backpropagation, optimizer
+from phidnet.error import mean_squared_error
 
 
 def fit(epoch=1, optimizer=None, batch=100, val_loss=False, print_rate=1):   # Fit model that we`ve built
@@ -36,17 +27,20 @@ def fit(epoch=1, optimizer=None, batch=100, val_loss=False, print_rate=1):   # F
             print('\n')
 
         for iterate in range(0, len_target - batch + 1, batch):
-            T = network_data.target[iterate:iterate+batch-1]
-            network_data.z[0] = network_data.X[iterate:iterate+batch-1]
-            Y = feedforward.feedforward(network_data.X[iterate:iterate+batch-1])   # Get last 'z' value in Y every epochs
-
-            loss.loss(Y, T)
-            gradient.gradient()
-            optimizer.update()
+            X = network_data.X[iterate:iterate+batch-1]
+            Y = feedforward.feedforward(X)
+            T = network_data.target[iterate:iterate + batch - 1]
 
             iteration += 1
+
             error = mean_squared_error(Y, T) / batch
             acc = accuracy(Y, T)
+
+            ######################
+            backpropagation.gradient((Y - T))
+            optimizer.update()
+            ##########################
+
 
             network_data.Epoch_list.append(iteration)   # Append values to list that we`ve made
             network_data.Loss_list.append(error)
@@ -107,7 +101,3 @@ def accuracy(Y, T):   # Get accuracy
         if np.argmax(Y[i]) == np.argmax(T[i]):
             sum = sum + 1
     return (sum / len(T)) * 100
-
-
-
-

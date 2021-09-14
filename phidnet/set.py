@@ -1,88 +1,68 @@
 import numpy as np
-import phidnet.network_data
+from phidnet.CNN import *
+from phidnet import network_data, activation, affine
 
 
 
-def layer(l, activation=None):   # Make shape of layer
-    phidnet.network_data.layer_shape.append(l)
+def filter(filter_number=10, input_channel=1, filter_size=5, stride=1, pad=0):
+    W = np.random.randn(filter_number, input_channel, filter_size, filter_size)
+    b = np.zeros(filter_number)
+
+    network_data.layer.append(convolution.Convolution(W, b, stride=stride, pad=pad))
+
+    return 0
+
+
+
+def pooling(height=2, width=2, stride=2):
+    network_data.layer.append(pool.Max(pool_h=height, pool_w=width, stride=stride))
+
+    return 0
+
+
+
+def activation(func):
+    network_data.layer.append(func)
+
+    return 0
+
+
+
+def layer(l, activation=None):
+    network_data.affine_shape.append(l)
     if activation == None:
         pass
     else:
-        phidnet.network_data.active.append(activation)
+        network_data.active.append(activation)
+
     return 0
 
 
 
-def compile(input=None, target=None):   # Compile model
-    phidnet.network_data.layerNumber = len(phidnet.network_data.layer_shape) - 1
-    for i in range(1, phidnet.network_data.layerNumber + 1):
-        weight(phidnet.network_data.layer_shape[i-1], phidnet.network_data.layer_shape[i], layer=i)
-        bias(phidnet.network_data.layer_shape[i], layer=i)
+def compile(input=None, target=None):
+    network_data.X = input
+    network_data.target = target
 
-    input_data(input)
-    target_data(target)
+    length = len(network_data.affine_shape)
+    for i in range(length-1):
+        W = np.random.randn(network_data.affine_shape[i], network_data.affine_shape[i+1])
+        b = np.random.randn(network_data.affine_shape[i+1])
+        network_data.layer.append(affine.Affine(W, b))
+        network_data.layer.append(network_data.active[i])
+
+    idx = 0
+    for i in network_data.layer:
+        if (str(type(i)) == "<class 'phidnet.CNN.convolution.Convolution'>") | (str(type(i)) == "<class 'phidnet.affine.Affine'>"):
+            network_data.layer_weight_index.append(idx)
+        idx += 1
+
+
     return 0
 
 
 
-def test(input=None, target=None):   # Set test dataset
-    test_input_data(input)
-    test_target_data(target)
-    return 0
+def test(input=None, target=None):
+    network_data.X_test = input
+    network_data.T_test = target
 
-
-
-def weight(axis0, axis1, layer=1):   # Make weights in neural network dictionary
-    mat = np.random.randn(axis0, axis1).astype(np.float32)
-    phidnet.network_data.weight[layer] = mat
-    phidnet.network_data.deltaWeight[layer] = None
-    return 0
-
-
-
-def bias(axis1, layer=1):   # Make biases in neural network dictionary
-    mat = np.random.randn(1, axis1).astype(np.float32)
-    phidnet.network_data.bias[layer] = mat
-    phidnet.network_data.deltaBias[layer] = None
-    return 0
-
-
-
-def build_network(layer_num):   # Build neural network, make nodes and set number of layers
-    for i in range(1, layer_num+1):
-        phidnet.network_data.a[i] = None
-
-    for i in range(1, layer_num+1):
-        phidnet.network_data.z[i] = None
-
-    phidnet.network_data.layerNumber = layer_num
-    return 0
-
-
-
-def input_data(inp):   # Set input data X
-    data = np.array(inp)
-    phidnet.network_data.X = data
-    phidnet.network_data.z[0] = data
-    return 0
-
-
-
-def target_data(inp):   # Set output data T (Target)
-    data = np.array(inp)
-    phidnet.network_data.target = data
-    return 0
-
-
-
-def test_input_data(inp):   # Set input data X
-    data = np.array(inp)
-    phidnet.network_data.X_test = data
-    return 0
-
-
-
-def test_target_data(inp):   # Set output data T (Target)
-    data = np.array(inp)
-    phidnet.network_data.T_test = data
     return 0

@@ -1,5 +1,5 @@
 import numpy as np
-from phidnet.CNN import network_data
+from phidnet import network_data
 
 
 
