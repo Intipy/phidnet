@@ -243,4 +243,4 @@ cython_debug/
 /phidnet/command.txt
 /command.txt
 /.git.bfg-report/
-/examples/test.py
+/examples/test.c
