@@ -37,7 +37,7 @@ def fit(epoch=1, optimizer=None, batch=100, val_loss=False, print_rate=1):   # F
             acc = accuracy(Y, T)
 
             ######################
-            backpropagation.gradient((Y - T))
+            backpropagation.gradient(Y - T)
             optimizer.update()
             ##########################
 

@@ -13,7 +13,7 @@ class Sigmoid:  # Sigmoid class
         return self.out
 
     def backward(self, dout):
-        dx = dout * (1.0 - self.out) * self.out
+        dx = dout * self.out * (1.0 - self.out)
         return dx
 
 
@@ -54,7 +54,7 @@ class Softmax:   # Softmax class
         return self.out
 
     def backward(self, x):   # derivative of softmax function
-        return 1
+        return x
 
 
 
