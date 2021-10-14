@@ -16,8 +16,8 @@ print("test output shape:", T_test.shape)
 
 
 
-############################################### Optimizer & Activation function setting
-SGD = phidnet.optimizer.SGD(lr=0.01)
+############################################### Optimizer setting
+SGD = phidnet.optimizer.SGD(lr=0.0001)
 Momentum = phidnet.optimizer.Momentum(lr=0.01, momentum=0.9)
 AdaGrad = phidnet.optimizer.AdaGrad(lr=0.01)
 ###############################################
@@ -43,7 +43,7 @@ phidnet.set.test(input=X_test, target=T_test)   # If you want to get loss of tes
 ###############################################
 
 
-print(phidnet.network_data.layer)
+
 ############################################### Fit model
 phidnet.model.fit(epoch=10, optimizer=AdaGrad, batch=5000, val_loss=False, print_rate=1)   # Showing validation loss make fitting slow
 #phidnet.save.model("saved_model")

@@ -1,5 +1,7 @@
 import numpy as np
 from phidnet.CNN import *
+from phidnet import RNN
+from phidnet.RNN import *
 from phidnet import network_data, activation, affine
 
 
@@ -18,6 +20,32 @@ def pooling(size=(2, 2), stride=2):
     network_data.layer.append(pool.Max(pool_h=size[0], pool_w=size[1], stride=stride))
 
     return 0
+
+
+
+def embed(v, d):
+    w = np.random.randn(v, d)
+    network_data.layer.append(embedding.TimeEmbedding(w))
+
+    return 0
+
+
+
+def rnn(d, h):
+    rnn_Wx = (np.random.randn(d, h) / np.sqrt(d))
+    rnn_Wh = (np.random.randn(h, h) / np.sqrt(h))
+    rnn_b = np.zeros(h)
+    network_data.layer.append(recurrent.TimeRNN(rnn_Wx, rnn_Wh, rnn_b, stateful=True))
+
+    return 0
+
+
+
+def nn(v, h):
+    affine_W = (np.random.randn(h, v) / np.sqrt(h))
+    affine_b = np.zeros(v)
+    network_data.layer.append(RNN.affine.TimeAffine(affine_W, affine_b))
+
 
 
 
@@ -52,7 +80,7 @@ def compile(input=None, target=None):
 
     idx = 0
     for i in network_data.layer:
-        if (str(type(i)) == "<class 'phidnet.CNN.convolution.Convolution'>") | (str(type(i)) == "<class 'phidnet.affine.Affine'>"):
+        if (str(type(i)) == "<class 'phidnet.CNN.convolution.Convolution'>") | (str(type(i)) == "<class 'phidnet.affine.Affine'>") | (str(type(i)) == "<class 'phidnet.RNN.recurrent.TimeRNN'>") | (str(type(i)) == "<class 'phidnet.RNN.affine.TimeAffine'>"):
             network_data.layer_weight_index.append(idx)
         idx += 1
 

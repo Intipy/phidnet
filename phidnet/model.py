@@ -8,7 +8,8 @@ from phidnet.error import mean_squared_error
 def fit(epoch=1, optimizer=None, batch=100, val_loss=False, print_rate=1):   # Fit model that we`ve built
     iteration = 0
     len_target = network_data.target.shape[0]
-    len_target_test = network_data.T_test.shape[0]
+    if val_loss == True:
+        len_target_test = network_data.T_test.shape[0]
 
     T = network_data.target[:batch]   # initial Y, T, error, accuracy for "0 epoch"
     Y = feedforward.feedforward(network_data.X[:batch])

@@ -16,7 +16,7 @@ print("test output shape:", T_test.shape)
 
 
 
-############################################### Optimizer & Activation function setting
+############################################### Optimizer setting
 SGD = phidnet.optimizer.SGD(lr=0.0001)
 Momentum = phidnet.optimizer.Momentum(lr=0.01, momentum=0.9)
 AdaGrad = phidnet.optimizer.AdaGrad(lr=0.01)
