@@ -37,11 +37,6 @@
     + phidnet.one_hot_encode
     + phidnet.model
 
-  * Define activation function 
-    + Sigmoid = phidnet.activation.Sigmoid()
-    + Relu = phidnet.activation.Relu()
-    + ect
-
   * Define optimizer
     + SGD = phidnet.optimizer.SGD(lr=0.01)  # lr: learning rate
     + Momentum = phidnet.optimizer.Momentum(lr=0.01, momentum=0.9)
@@ -49,9 +44,11 @@
 
   * Set layer
     + phidnet.set.layer(784)
-    + phidnet.set.layer(200, activation=Sigmoid)
-    + phidnet.set.layer(10, activation=Sigmoid)
+    + phidnet.set.layer(200, activation=phidnet.activation.relu())
+    + phidnet.set.layer(10, activation=phidnet.activation.Softmax())
     + If you did not set the activation function, that layer becomes input layer(Input layer does not have activation function.) and if you want to build hidden & output layer, you need to set activation function.
+    + In this case, the structure is as follows.
+    + 784(input) - 200 - relu - 10 - softmax(output)
 
   * Compile neural network 
     + phidnet.set.compile(input=X, target=T)
@@ -62,7 +59,7 @@
     + If you want to calculate loss of test dataset(val_loss=True), you need to set this.
 
   * Fit model
-    + phidnet.model.fit(epoch=30, optimizer=SGD, batch=5000, val_loss=True, print_rate=2, save=True) 
+    + phidnet.model.fit(epoch=30, optimizer=SGD, batch=5000, val_loss=True, print_rate=2) 
     + In the example, train the model for epoch. 
     + SGD is the instance of phidnet.optimizer.SGD() class. 
     + Batch size is 5000. 
