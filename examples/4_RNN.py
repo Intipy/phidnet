@@ -52,19 +52,42 @@ print(sentence_dic)   # {'you': 0, 'say': 1, 'goodbye': 2, 'and': 3, 'i': 4, 'he
 print(encoded_dic)
 print(X)
 print(T)
+print(X.shape)
+print(T.shape)
 print("============================")
 
 
 
 vocab_size, wordvec_size, hidden_size = 1, 2, 3   # v, d, h
-############################################### Optimizer & Activation function setting
-SGD = phidnet.optimizer.SGD(lr=0.0001)
-Momentum = phidnet.optimizer.Momentum(lr=0.01, momentum=0.9)
-AdaGrad = phidnet.optimizer.AdaGrad(lr=0.01)
-###############################################
+np.set_printoptions(precision=3, suppress=True)
+
+
+phidnet.set.rnn(7, 7)   # (???, sentence length)
+phidnet.set.compile(input=X, target=T)
+
+epoch = 4
+for e in range(epoch):
+    forwarded = phidnet.network_data.layer[0].forward(X).reshape(8, 7)
+    backwarded = phidnet.network_data.layer[0].backward(forwarded - T)
+
+    for i in range(3):
+        phidnet.network_data.layer[0].params[i] -= 0.0001 * phidnet.network_data.layer[0].grads[i]
+
+
+'''
+for i in range(len(forwarded)):
+    forwarded[i][np.argmax(forwarded[i])] = 1
+for i in range(len(forwarded)):
+    for j in range(len(forwarded[0])):
+        if forwarded[i][j] != 1:
+            forwarded[i][j] = 0
+'''
+
+print(forwarded)
 
 
 
+'''
 ###############################################
 phidnet.set.rnn(7, 10)
 phidnet.set.nn(1, 10)
@@ -79,4 +102,4 @@ phidnet.model.fit(epoch=10, optimizer=AdaGrad, batch=1, val_loss=False, print_ra
 phidnet.model.show_loss()
 phidnet.model.show_accuracy()
 ###############################################
-
+'''

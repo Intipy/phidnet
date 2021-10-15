@@ -1,7 +1,5 @@
 layer = []
 
-affine_shape = []
-active = []
 layer_weight_index = []
 
 X = None   # Save X of neural network

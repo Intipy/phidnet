@@ -11,7 +11,8 @@ __all__ = ['activation',
            'CNN',
            'RNN',
            'GUI',
-           'datasets']
+           'datasets',
+           'string_to_class']
 
 from phidnet import *
 from phidnet.matrix import matrix   # matrix.py 

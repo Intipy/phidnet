@@ -66,5 +66,5 @@ class Linear:   # Linear class
         self.out = x.copy()
         return self.out
 
-    def backward(self, x):   # derivative of linear function
-        return 1
+    def backward(self, dout):   # derivative of linear function
+        return dout

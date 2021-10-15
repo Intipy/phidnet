@@ -3,7 +3,7 @@
 ---------
 
 ## 1. Introduction to phidnet
-  * Phidnet is a library developed for neural network construction for deep learning, machine learning, and statistics.
+  * Phidnet is a framework developed for neural network construction for deep learning, machine learning, and statistics.
 
 ---------
 
@@ -37,18 +37,27 @@
     + phidnet.one_hot_encode
     + phidnet.model
 
-  * Define optimizer
-    + SGD = phidnet.optimizer.SGD(lr=0.01)  # lr: learning rate
-    + Momentum = phidnet.optimizer.Momentum(lr=0.01, momentum=0.9)
-    + AdaGrad = phidnet.optimizer.AdaGrad(lr=0.01)
-
   * Set layer
     + phidnet.set.layer(784)
-    + phidnet.set.layer(200, activation=phidnet.activation.relu())
-    + phidnet.set.layer(10, activation=phidnet.activation.Softmax())
+    + phidnet.set.layer(200, activation='Relu')
+    + phidnet.set.layer(10, activation='Softmax')
     + If you did not set the activation function, that layer becomes input layer(Input layer does not have activation function.) and if you want to build hidden & output layer, you need to set activation function.
     + In this case, the structure is as follows.
     + 784(input) - 200 - relu - 10 - softmax(output)
+    
+  * Set layer for each layer
+    + phidnet.set.layer(784)
+    + phidnet.set.layer(200)
+    + phidnet.set.activation('Relu')
+    + phidnet.set.layer(10)
+    + phidnet.set.layer('Softmax')
+    + As in the example, you can designate each layer one by one.
+    
+  * Activation function
+    + 'Relu'
+    + 'Sigmoid'
+    + 'Softmax'
+    + 'Linear'
 
   * Compile neural network 
     + phidnet.set.compile(input=X, target=T)
@@ -59,12 +68,19 @@
     + If you want to calculate loss of test dataset(val_loss=True), you need to set this.
 
   * Fit model
-    + phidnet.model.fit(epoch=30, optimizer=SGD, batch=5000, val_loss=True, print_rate=2) 
+    + phidnet.model.fit(epoch=30, optimizer='SGD', lr=0.0001, momentum=0.9, batch=5000, val_loss=True, print_rate=2) 
     + In the example, train the model for epoch. 
-    + SGD is the instance of phidnet.optimizer.SGD() class. 
+    + If the optimizer is set to 'Momentum', you must specify a parameter called momentum=. In the above case, SGD was used as an optimizer, so in fact, you don't have to set momentum.
+    + lr(learning rate) is 0.0001
     + Batch size is 5000. 
     + val_loss is loss of test dataset. This helps prevent overfitting. but, calculating this makes the fitting slow.
     + Every 2 epoch, print the loss and accuracy of model(print rate).
+    
+  * Optimizer
+    + 'SGD'
+    + 'Momentum'
+    + 'AdaGrad'
+    + 'Adam' (Adam is not completed yet.)
 
   * Predict
     + predicted = phidnet.model.predict(input, exponential=True, precision=2)

@@ -2,7 +2,9 @@ import numpy as np
 from phidnet.CNN import *
 from phidnet import RNN
 from phidnet.RNN import *
+import phidnet
 from phidnet import network_data, activation, affine
+from phidnet import string_to_class
 
 
 
@@ -50,6 +52,7 @@ def nn(v, h):
 
 
 def activation(func):
+    func = string_to_class.convert(func)
     network_data.layer.append(func)
 
     return 0
@@ -57,11 +60,13 @@ def activation(func):
 
 
 def layer(l, activation=None):
-    network_data.affine_shape.append(l)
+    network_data.layer.append(l)
+
     if activation == None:
         pass
     else:
-        network_data.active.append(activation)
+        activation = string_to_class.convert(activation)
+        network_data.layer.append(activation)
 
     return 0
 
@@ -71,12 +76,27 @@ def compile(input=None, target=None):
     network_data.X = input
     network_data.target = target
 
-    length = len(network_data.affine_shape)
-    for i in range(length-1):
-        W = np.random.randn(network_data.affine_shape[i], network_data.affine_shape[i+1])
-        b = np.random.randn(network_data.affine_shape[i+1])
-        network_data.layer.append(affine.Affine(W, b))
-        network_data.layer.append(network_data.active[i])
+    shape = []   # Weight matrix shape (784-200-r-10-s) > (784, 200) (200, 10)
+    copied_layer = network_data.layer.copy()  # Copy the layer. Because we change the element, and it makes confusion in loop
+
+    for i in range(len(copied_layer)):
+        if str(type(copied_layer[i])) == "<class 'int'>":
+            shape.append(copied_layer[i])
+        if len(shape) >= 2:
+            W = np.random.randn(shape[0], shape[1])
+            b = np.random.randn(shape[1])
+            network_data.layer[i] = affine.Affine(W, b)
+
+            shape_last = shape[1]   # Reset weight shape, make first shape's column to second shape's row
+            shape.clear()
+            shape.append(shape_last)
+
+
+    copied_layer = network_data.layer.copy()   # Copy the layer. Because we remove the element, and it makes confusion in loop
+    for i in copied_layer:
+        if str(type(i)) == "<class 'int'>":
+            network_data.layer.remove(i)
+
 
     idx = 0
     for i in network_data.layer:
@@ -94,3 +114,5 @@ def test(input=None, target=None):
     network_data.T_test = target
 
     return 0
+
+

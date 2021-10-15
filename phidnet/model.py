@@ -1,11 +1,20 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from phidnet.CNN import *
-from phidnet import network_data, feedforward, backpropagation, optimizer
+import phidnet
+from phidnet import network_data, feedforward, backpropagation
 from phidnet.error import mean_squared_error
 
 
-def fit(epoch=1, optimizer=None, batch=100, val_loss=False, print_rate=1):   # Fit model that we`ve built
+def fit(epoch=1, optimizer=None, lr=1, Momentum=0.9, batch=100, val_loss=False, print_rate=1):   # Fit model that we`ve built
+    if optimizer == 'SGD':
+        optimizer = phidnet.optimizer.SGD(lr=lr)
+    elif optimizer == 'AdaGrad':
+        optimizer = phidnet.optimizer.AdaGrad(lr=lr)
+    elif optimizer == 'Momentum':
+        optimizer = phidnet.optimizer.Momentum(lr=lr, momentum=Momentum)
+
+
     iteration = 0
     len_target = network_data.target.shape[0]
     if val_loss == True:
